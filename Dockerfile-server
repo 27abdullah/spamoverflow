@@ -1,0 +1,19 @@
+FROM --platform=linux/amd64 python:3.10
+
+ENV SQLALCHEMY_DATABASE_URI=postgresql://administrator:verySecretPassword@database:5432/spamoverflow 
+
+RUN pip3 install poetry
+
+WORKDIR /app
+
+COPY pyproject.toml ./
+RUN poetry install --no-root
+
+COPY credentials /root/.aws/credentials
+
+COPY bin bin
+COPY spamoverflow spamoverflow
+RUN dpkg --print-architecture | grep -q "amd64" && export SPAMHAMMER_ARCH="amd64" || export SPAMHAMMER_ARCH="arm64" && wget https://github.com/CSSE6400/SpamHammer/releases/download/v1.0.0/spamhammer-v1.0.0-linux-${SPAMHAMMER_ARCH} -O spamhammer && chmod +x spamhammer
+
+ENTRYPOINT ["/app/bin/docker-entrypoint"]
+CMD ["serve"]

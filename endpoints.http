@@ -1,0 +1,22 @@
+@baseUrl = ''
+
+
+GET http://spamoverflow-732362615.us-east-1.elb.amazonaws.com/api/v1/customers/33aa69ad-4e47-4bb5-97ed-9e0bd6255278/emails
+
+### Get a specific spamoverflow
+POST http://spamoverflow-732362615.us-east-1.elb.amazonaws.com/api/v1/customers/33aa69ad-4e47-4bb5-97ed-9e0bd6255278/emails
+Accept: application/json
+
+{
+"contents": {
+    "to": "efake@2k.com",
+    "from": "c@c",
+    "subject": "objective",
+    "body": "6.com, 57.com"
+    },
+
+"metadata": {
+    "spamhammer": "0|12"
+    }
+}
+
